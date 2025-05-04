@@ -1,4 +1,6 @@
-require("dotenv").config({ path: `${__dirname}/.env` });
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: `${__dirname}/.env` });
+}
 import express from "express";
 import countRouter from "./routes/count.routes";
 const cors = require("cors");
