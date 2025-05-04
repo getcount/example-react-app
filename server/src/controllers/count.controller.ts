@@ -58,6 +58,31 @@ export const exchagneAccessToken = async function (
   }
 };
 
+export const vendors = async function (req: Request, res: Response) {
+  try {
+    // Identify your team uuid
+    const accessToken = countConnections.filter(
+      (_con) => _con.workspaceId === req.query.workspaceId
+    )[0]?.accessToken;
+
+    const { data } = await countClient.get("/vendors", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Success on fetching vendors.",
+      data,
+    });
+  } catch (err: any) {
+    res
+      .status(500)
+      .json({ message: err?.response?.data?.message || err.message });
+  }
+};
+
 export const chartOfAccounts = async function (req: Request, res: Response) {
   try {
     // Identify your team uuid
