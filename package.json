@@ -7,7 +7,10 @@
     "bootstrap": "cd client && npm install && cd ../server && npm install",
     "start": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "start:dev_server": "npm run start:dev --prefix server",
-    "install:server": "cd server && npm install"
+    "install:server": "cd server && npm install",
+    "build:server": "npm run build --prefix server",
+    "start:server": "npm start --prefix server",
+    "build:start_server": "npm run build:start --prefix server"
   },
   "keywords": [],
   "author": "",

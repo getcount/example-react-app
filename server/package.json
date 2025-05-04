@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node ./built/src/server.js",
-    "build:start": "npx tsc && node ./built/src/server.js",
+    "start": "node ./built/server.js",
+    "build:start": "npx tsc && node ./built/server.js",
     "start:dev": "nodemon src/server.ts"
   },
   "author": "COUNT",
