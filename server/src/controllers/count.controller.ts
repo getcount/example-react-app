@@ -1,6 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
 
+// setup a reusable client axuis ubstabce
+const countClient = axios.create({
+  baseURL: process.env.COUNT_PARTNER_API_ENDPOINT,
+  headers: {
+    "x-client-secret": process.env.COUNT_CLIENT_SECRET as string,
+    "x-client-id": process.env.COUNT_CLIENT_ID as string,
+  },
+});
+
 interface CountConnection {
   accessToken: string;
   refreshToken: string;
@@ -27,14 +36,11 @@ export const exchagneAccessToken = async function (
       grantType: "authorization_code",
       code: body.code,
     };
-    const exchangeEndpoint = `${process.env.COUNT_PARTNER_API_ENDPOINT}/grant-access-token`;
 
-    const { data } = await axios.post(exchangeEndpoint, exchangeAuthCodeOpts, {
-      headers: {
-        "x-client-secret": process.env.COUNT_CLIENT_SECRET as string,
-        "x-client-id": process.env.COUNT_CLIENT_ID as string,
-      },
-    });
+    const { data } = await countClient.post(
+      "/grant-access-token",
+      exchangeAuthCodeOpts
+    );
 
     // push data
     countConnections.push(data.data.result);
@@ -59,12 +65,9 @@ export const chartOfAccounts = async function (req: Request, res: Response) {
       (_con) => _con.workspaceId === req.query.workspaceId
     )[0]?.accessToken;
 
-    const chartOfAccountsEndpoint = `${process.env.COUNT_PARTNER_API_ENDPOINT}/chart-of-accounts`;
-    const { data } = await axios.get(chartOfAccountsEndpoint, {
+    const { data } = await countClient.get("/chart-of-accounts", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "x-client-secret": process.env.COUNT_CLIENT_SECRET as string,
-        "x-client-id": process.env.COUNT_CLIENT_ID as string,
       },
     });
 
@@ -87,12 +90,9 @@ export const createTransaction = async function (req: Request, res: Response) {
       (_con) => _con.workspaceId === req.query.workspaceId
     )[0]?.accessToken;
 
-    const chartOfAccountsEndpoint = `${process.env.COUNT_PARTNER_API_ENDPOINT}/transactions`;
-    const { data } = await axios.post(chartOfAccountsEndpoint, req.body, {
+    const { data } = await countClient.post("/transactions", req.body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "x-client-secret": process.env.COUNT_CLIENT_SECRET as string,
-        "x-client-id": process.env.COUNT_CLIENT_ID as string,
       },
     });
 
