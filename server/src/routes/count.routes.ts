@@ -13,4 +13,6 @@ router.route("/vendors").get(countController.vendors);
 
 router.route("/transactions").post(countController.createTransaction);
 
+router.route("/bills").post(countController.createBill);
+
 export default router;
