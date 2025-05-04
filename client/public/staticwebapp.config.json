@@ -1,0 +1,41 @@
+{
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": [
+      "/static/media/*.{png,jpg,jpeg,gif,bmp}",
+      "/static/css/*",
+      "/static/js/*"
+    ]
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".js": "application/javascript"
+  },
+  "globalHeaders": {
+    "Content-Security-Policy":"default-src 'self'; base-uri 'self'; manifest-src 'self'; script-src 'self' 'unsafe-inline' https://dev-app.getcount.com https://app.getcount.com https://cdn.intake-lr.com https://cdn.lrkt-in.com https://www.googletagmanager.com https://cdn.plaid.com https://connect.facebook.net https://widget.intercom.io https://js.intercomcdn.com https://js.stripe.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://cdn.logrocket.io https://cdn.lr-ingest.io https://cdn.lr-in.com https://cdn.lr-in-prod.com https://cdn.lr-ingest.com https://cdn.ingest-lr.com https://cdn.lr-intake.com https://cdn.intake-lr.com   *.usemessages.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.intercomcdn.com data:; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://purecatamphetamine.github.io https://cdn.jsdelivr.net https://*.intercomcdn.com https://seals.ssltrust.com.au https://www.facebook.com https://countstoragedev.blob.core.windows.net https://countstorageprod.blob.core.windows.net https://dev-app.getcount.com https://app.getcount.com https://static.intercomassets.com https://www.google.com https://googleads.g.doubleclick.net; frame-src 'self' https://js.stripe.com https://intercom-sheets.com https://cdn.plaid.com https://countstoragedev.blob.core.windows.net https://countstorageprod.blob.core.windows.net https://dev-app.getcount.com https://app.getcount.com https://td.doubleclick.net blob: https://app.getcount.com https://dev-app.getcount.com; connect-src 'self' https://api.country.is https://maps.googleapis.com https://count-process-documents-prod.azurewebsites.net https://count-process-documents-dev.azurewebsites.net https://r.lrkt-in.com https://*.google-analytics.com https://*.analytics.google.com https://*.stripe.com https://*.plaid.com https://*.gusto.com https://*.squareup.com https://*.intercom.io https://countstoragedev.blob.core.windows.net https://countstorageprod.blob.core.windows.net https://count-api-dev.azurewebsites.net https://count-api-prod.azurewebsites.net https://r.intake-lr.com https://*.sentry.io wss://nexus-websocket-a.intercom.io wss://count-api-dev.azurewebsites.net wss://count-api-prod.azurewebsites.net https://googleads.g.doubleclick.net https://www.google.com https://google.com https://www.googleapis.com blob:; form-action 'self' https://*.stripe.com; object-src 'none'; media-src 'self' https://countstoragedev.blob.core.windows.net https://countstorageprod.blob.core.windows.net data:; frame-ancestors 'self'; worker-src 'self' blob: https://app.getcount.com https://dev-app.getcount.com;",
+    "X-Frame-Options": "DENY",
+    "Permissions-Policy": "geolocation=(self), microphone=(), camera=()"
+  },
+  "routes": [
+    {
+      "route": "/",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      }
+    },
+    {
+      "route": "/*.html",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate"
+      }
+    },
+    {
+      "route": "/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    }
+  ]
+}

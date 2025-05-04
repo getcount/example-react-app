@@ -1,0 +1,137 @@
+[
+ {
+     "id": 3,
+     "name": "Euro",
+     "isoCode": "EUR",
+     "symbol": "€",
+     "locale": null,
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-05-21T06:41:37.706Z"
+ },
+ {
+     "id": 8,
+     "name": "Renminbi",
+     "isoCode": "CNY",
+     "symbol": "¥",
+     "locale": null,
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-05-21T06:41:37.706Z"
+ },
+ {
+     "id": 9,
+     "name": "South African rand",
+     "isoCode": "ZAR",
+     "symbol": "R",
+     "locale": null,
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-05-21T06:41:37.706Z"
+ },
+ {
+     "id": 10,
+     "name": "Sterling",
+     "isoCode": "GBP",
+     "symbol": "£",
+     "locale": null,
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-05-21T06:41:37.706Z"
+ },
+ {
+     "id": 11,
+     "name": "US dollar",
+     "isoCode": "USD",
+     "symbol": "$",
+     "locale": null,
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-05-21T06:41:37.706Z"
+ },
+ {
+     "id": 1,
+     "name": "Australian dollar",
+     "isoCode": "AUD",
+     "symbol": "$",
+     "locale": "en-AU",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:37.070Z"
+ },
+ {
+     "id": 2,
+     "name": "Canadian dollar",
+     "isoCode": "CAD",
+     "symbol": "$",
+     "locale": "en-CA",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:38.620Z"
+ },
+ {
+     "id": 4,
+     "name": "Indian rupee",
+     "isoCode": "INR",
+     "symbol": "₹",
+     "locale": "en-IN",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:39.616Z"
+ },
+ {
+     "id": 5,
+     "name": "Japanese yen",
+     "isoCode": "JPY",
+     "symbol": "¥",
+     "locale": "ja-JP",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:40.307Z"
+ },
+ {
+     "id": 6,
+     "name": "Mexican peso",
+     "isoCode": "MXN",
+     "symbol": "$",
+     "locale": "es-MX",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:41.216Z"
+ },
+ {
+     "id": 7,
+     "name": "New Zealand dollar",
+     "isoCode": "NZD",
+     "symbol": "$",
+     "locale": "en-NZ",
+     "createdAt": "2024-05-21T06:41:37.706Z",
+     "updatedAt": "2024-09-17T20:18:41.943Z"
+ },
+ {
+     "id": 12,
+     "name": "Swiss Franc",
+     "isoCode": "CHF",
+     "symbol": "CHF",
+     "locale": null,
+     "createdAt": "2024-11-20T20:28:41.592Z",
+     "updatedAt": "2024-11-20T20:28:41.592Z"
+ },
+ {
+     "id": 13,
+     "name": "Turkish Lira",
+     "isoCode": "TRY",
+     "symbol": "₺",
+     "locale": null,
+     "createdAt": "2024-11-20T20:28:41.592Z",
+     "updatedAt": "2024-11-20T20:28:41.592Z"
+ },
+ {
+     "id": 14,
+     "name": "Norwegian Krone",
+     "isoCode": "NOK",
+     "symbol": "kr",
+     "locale": null,
+     "createdAt": "2024-11-20T20:28:41.592Z",
+     "updatedAt": "2024-11-20T20:28:41.592Z"
+ },
+ {
+     "id": 15,
+     "name": "Danish Krone",
+     "isoCode": "DKK",
+     "symbol": "kr",
+     "locale": null,
+     "createdAt": "2024-11-20T20:28:41.592Z",
+     "updatedAt": "2024-11-20T20:28:41.592Z"
+ }
+]
