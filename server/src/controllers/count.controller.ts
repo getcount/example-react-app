@@ -30,18 +30,18 @@ export const exchagneAccessToken = async function (
   res: Response
 ) {
   try {
-    const { body } = req;
-    console.log(body);
     // prepare exchagne token params
     const exchangeAuthCodeOpts: ExchangeAuthCodeOpts = {
       grantType: "authorization_code",
-      code: body.code,
+      code: req.body.code,
     };
 
     const { data } = await countClient.post(
       "/grant-access-token",
       exchangeAuthCodeOpts
     );
+
+    console.log(data);
 
     // push data
     countConnections.push(data.data.result);
