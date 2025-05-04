@@ -107,6 +107,7 @@ export const countWorkspaceDetails = async function (
 
 export const chartOfAccounts = async function (req: Request, res: Response) {
   try {
+    console.log("lala land");
     // Identify your team uuid
     const accessToken = countConnections.filter(
       (_con) => _con.workspaceId === req.query.workspaceId
