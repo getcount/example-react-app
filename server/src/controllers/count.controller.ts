@@ -19,7 +19,7 @@ interface CountConnection {
   workspaceName: string;
 }
 const countConnections: CountConnection[] = [];
-const workspaceDetails: { workspaceId: string; worksapceName: string }[] = [];
+const workspaceDetails: { workspaceId: string; workspaceName: string }[] = [];
 
 interface ExchangeAuthCodeOpts {
   code: string;
@@ -46,7 +46,7 @@ export const exchagneAccessToken = async function (
     // push data
     countConnections.push(data.data.result);
     workspaceDetails.push({
-      worksapceName: data.data.result.worksapceName,
+      workspaceName: data.data.result.workspaceName,
       workspaceId: data.data.result.workspaceId,
     });
 
@@ -54,6 +54,12 @@ export const exchagneAccessToken = async function (
     res.status(200).json({
       status: "success",
       message: "Success on exchanging public cod to access code.",
+      data: {
+        data: {
+          workspaceId: data.data.result.workspaceId,
+          workspaceName: data.data.result.workspaceName,
+        },
+      },
     });
   } catch (err: any) {
     console.log(err?.response?.data);
