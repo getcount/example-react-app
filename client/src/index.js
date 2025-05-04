@@ -3,18 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import {
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import { configureStore } from '@reduxjs/toolkit';
-import { ProdEnv } from 'utils';
+import { persistStore } from 'redux-persist';
 import { ToastContainer } from 'react-toastify';
+import { configureStore } from '@reduxjs/toolkit';
+import { ProdEnv } from './utils';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
