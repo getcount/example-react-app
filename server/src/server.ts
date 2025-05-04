@@ -1,7 +1,6 @@
+require("dotenv").config({ path: `${__dirname}/.env` });
 import express from "express";
 import countRouter from "./routes/count.routes";
-require("dotenv").config({ path: `${__dirname}/.env` });
-
 const cors = require("cors");
 
 // intiate express
