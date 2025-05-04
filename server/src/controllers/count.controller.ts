@@ -19,6 +19,7 @@ interface CountConnection {
   workspaceName: string;
 }
 const countConnections: CountConnection[] = [];
+const workspaceDetails: { workspaceId: string; worksapceName: string }[] = [];
 
 interface ExchangeAuthCodeOpts {
   code: string;
@@ -44,6 +45,10 @@ export const exchagneAccessToken = async function (
 
     // push data
     countConnections.push(data.data.result);
+    workspaceDetails.push({
+      worksapceName: data.data.result.worksapceName,
+      workspaceId: data.data.result.workspaceId,
+    });
 
     console.log(countConnections);
     res.status(200).json({
@@ -75,6 +80,23 @@ export const vendors = async function (req: Request, res: Response) {
       status: "success",
       message: "Success on fetching vendors.",
       data,
+    });
+  } catch (err: any) {
+    res
+      .status(500)
+      .json({ message: err?.response?.data?.message || err.message });
+  }
+};
+
+export const countWorkspaceDetails = async function (
+  req: Request,
+  res: Response
+) {
+  try {
+    res.status(200).json({
+      status: "success",
+      message: "Success on getting on details.",
+      data: { workspaceDetails },
     });
   } catch (err: any) {
     res
