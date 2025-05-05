@@ -3,3 +3,4 @@ dist
 build
 built
 .env
+.DS_Store

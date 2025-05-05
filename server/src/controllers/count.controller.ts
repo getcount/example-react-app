@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import axios from "axios";
 import * as crypto from "crypto";
 
-// setup a reusable client axuis ubstabce
+// setup a reusable client axios instance
 const countClient = axios.create({
   baseURL: process.env.COUNT_PARTNER_API_ENDPOINT,
   headers: {
