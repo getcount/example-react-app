@@ -1,14 +1,112 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
+import * as crypto from "crypto";
 
 // setup a reusable client axuis ubstabce
 const countClient = axios.create({
   baseURL: process.env.COUNT_PARTNER_API_ENDPOINT,
   headers: {
-    "x-client-secret": process.env.COUNT_CLIENT_SECRET as string,
     "x-client-id": process.env.COUNT_CLIENT_ID as string,
   },
 });
+
+countClient.interceptors.request.use(
+  (config) => {
+    const method = (config.method || "GET").toUpperCase();
+    const url = config.url ?? "/";
+    const urlPath = new URL(url, config.baseURL).pathname;
+    const timestamp = Math.floor(Date.now() / 1000).toString();
+    const clientSecret = process.env.COUNT_CLIENT_SECRET as string;
+
+    const body = config.data || {};
+
+    const signature = generateSignature({
+      method,
+      path: urlPath,
+      timestamp,
+      body,
+      clientSecret,
+    });
+
+    config.headers["x-timestamp"] = timestamp;
+    config.headers["x-signature"] = signature;
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+/**
+ * Hashes the request body using SHA-256 and returns the hexadecimal digest.
+ * If the body is empty, returns an empty string.
+ *
+ * @param body - The request payload to hash.
+ * @returns A SHA-256 hash of the stringified body or an empty string.
+ */
+function hashBody(body: Record<string, any>): string {
+  return body && Object.keys(body).length > 0
+    ? crypto.createHash("sha256").update(JSON.stringify(body)).digest("hex")
+    : "";
+}
+
+/**
+ * Builds the base string to be signed for HMAC verification.
+ *
+ * @param method - The HTTP method (GET, POST, etc.)
+ * @param path - The request path (e.g., /api/user)
+ * @param timestamp - Unix timestamp used to prevent replay attacks.
+ * @param bodyHash - Optional SHA-256 hash of the request body.
+ * @returns A formatted string to be signed: method:path:timestamp[:bodyHash]
+ */
+function buildHmacBaseString(
+  method: string,
+  path: string,
+  timestamp: string,
+  bodyHash = ""
+): string {
+  return `${method}:${path}:${timestamp}:${bodyHash}`;
+}
+
+/**
+ * Parameters used to generate the HMAC signature.
+ */
+interface GenerateSignatureParams {
+  method: string;
+  path: string;
+  timestamp: string;
+  body: Record<string, any>;
+  clientSecret: string;
+}
+
+/**
+ * Generates an HMAC-SHA256 signature using the provided parameters.
+ *
+ * @param params - An object containing HTTP method, path, timestamp, body, and the client secret.
+ * @returns A hexadecimal HMAC signature.
+ *
+ * @example
+ * const signature = generateSignature({
+ *   method: 'POST',
+ *   path: '/api/user',
+ *   timestamp: '1714659912',
+ *   body: { name: 'Alice' },
+ *   clientSecret: 'supersecretkey'
+ * });
+ */
+function generateSignature(params: GenerateSignatureParams): string {
+  const { method, path, timestamp, body, clientSecret } = params;
+
+  const bodyHash = ["POST", "PUT", "PATCH"].includes(method.toUpperCase())
+    ? hashBody(body)
+    : "";
+
+  const baseString = buildHmacBaseString(method, path, timestamp, bodyHash);
+
+  return crypto
+    .createHmac("sha256", clientSecret)
+    .update(baseString)
+    .digest("hex");
+}
 
 interface CountConnection {
   accessToken: string;
@@ -41,8 +139,6 @@ export const exchagneAccessToken = async function (
       exchangeAuthCodeOpts
     );
 
-    console.log(data);
-
     // push data
     countConnections.push(data.data.result);
     workspaceDetails.push({
@@ -50,7 +146,6 @@ export const exchagneAccessToken = async function (
       workspaceId: data.data.result.workspaceId,
     });
 
-    console.log(countConnections);
     res.status(200).json({
       status: "success",
       message: "Success on exchanging public cod to access code.",
