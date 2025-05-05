@@ -136,16 +136,20 @@ const ReusableAccount = ({ b, isSubAccount = false }) => (
 
 const ChartOfAccounts = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAccounts = async () => {
+    setLoading(true);
     const workspaceId = localStorage.getItem('workspaceId');
     try {
       const res = await Axios.get(
         `${process.env.REACT_APP_BASE_URL_API}/chart-of-accounts?workspaceId=${workspaceId}`,
       );
       setData(res?.data?.data);
+      setLoading(false);
     } catch (e) {
       toast.error(e?.response?.data?.message);
+      setLoading(false);
       console.log('error', e);
     }
   };
@@ -162,58 +166,70 @@ const ChartOfAccounts = () => {
           <h1 className="text-black text-2xl font-medium leading-[2.375rem] mb-4">
             Chart of Accounts
           </h1>
-          {/* Table  */}
-          <div className="bg-white  mt-5 dark:bg-slate-800 h-full rounded-sm w-full overflow-auto">
-            <table className="table-auto w-full text-black divide-y divide-slate-200 dark:divide-slate-700">
-              {/* Table header */}
-              <thead className="text-sm text-black">
-                <tr>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap flex items-center  cursor-pointer">
-                    <div className="font-semibold text-left">
-                      Account Number / Code
-                    </div>
-                  </th>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap">
-                    <div className="flex items-center cursor-pointer">
-                      <div className="font-semibold text-left">Name</div>
-                    </div>
-                  </th>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap flex items-center cursor-pointer">
-                    <div className="font-semibold text-left">Type</div>
-                  </th>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap cursor-pointer">
-                    <div className="flex items-center">
-                      <div className="font-semibold text-left">Sub-Type</div>
-                    </div>
-                  </th>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap sm:table-cell ">
-                    <div className="font-semibold text-left">Taxes</div>
-                  </th>
-                  <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap sm:table-cell ">
-                    <div className="font-semibold text-left">COUNT Balance</div>
-                  </th>
-                </tr>
-              </thead>
-              {/* Table body */}
+          {loading ? (
+            <div className="flex justify-center items-center w-full">
+              <svg
+                className="animate-spin w-7 h-7 fill-current shrink-0"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 16a7.928 7.928 0 01-3.428-.77l.857-1.807A6.006 6.006 0 0014 8c0-3.309-2.691-6-6-6a6.006 6.006 0 00-5.422 8.572l-1.806.859A7.929 7.929 0 010 8c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" />
+              </svg>
+            </div>
+          ) : (
+            <div className="bg-white  mt-5 dark:bg-slate-800 h-full rounded-sm w-full overflow-auto">
+              <table className="table-auto w-full text-black divide-y divide-slate-200 dark:divide-slate-700">
+                {/* Table header */}
+                <thead className="text-sm text-black">
+                  <tr>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap flex items-center  cursor-pointer">
+                      <div className="font-semibold text-left">
+                        Account Number / Code
+                      </div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap">
+                      <div className="flex items-center cursor-pointer">
+                        <div className="font-semibold text-left">Name</div>
+                      </div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap flex items-center cursor-pointer">
+                      <div className="font-semibold text-left">Type</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap cursor-pointer">
+                      <div className="flex items-center">
+                        <div className="font-semibold text-left">Sub-Type</div>
+                      </div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap sm:table-cell ">
+                      <div className="font-semibold text-left">Taxes</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-4 whitespace-nowrap sm:table-cell ">
+                      <div className="font-semibold text-left">
+                        COUNT Balance
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                {/* Table body */}
 
-              <tbody className="text-sm divide-y text-black divide-slate-200 dark:divide-slate-700">
-                {data?.map((b) => (
-                  <>
-                    <ReusableAccount key={b?.id} b={b} />
-                    {b?.subAccounts?.length > 0 &&
-                      b?.subAccounts?.map((subAccount) => (
-                        <ReusableAccount
-                          key={subAccount?.id}
-                          b={subAccount}
-                          isSubAccount
-                          parent={b}
-                        />
-                      ))}
-                  </>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                <tbody className="text-sm divide-y text-black divide-slate-200 dark:divide-slate-700">
+                  {data?.map((b) => (
+                    <>
+                      <ReusableAccount key={b?.id} b={b} />
+                      {b?.subAccounts?.length > 0 &&
+                        b?.subAccounts?.map((subAccount) => (
+                          <ReusableAccount
+                            key={subAccount?.id}
+                            b={subAccount}
+                            isSubAccount
+                            parent={b}
+                          />
+                        ))}
+                    </>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </main>
     </AppLayout>
