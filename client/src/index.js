@@ -1,44 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 import { ToastContainer } from 'react-toastify';
-import { configureStore } from '@reduxjs/toolkit';
-import { ProdEnv } from './utils';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
-import rootReducer from './slices';
 import 'react-toastify/dist/ReactToastify.css';
-
-export const store = configureStore({
-  reducer: rootReducer,
-  devTools: process.env.REACT_APP_ENV !== ProdEnv,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-      // serializableCheck: {
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      // },
-    }),
-});
-
-console.error = () => {};
-console.warn = () => {};
-
-const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <App />
-        <ToastContainer />
-      </PersistGate>
-    </Provider>
+    <App />
+    <ToastContainer />
   </Router>,
 );
 

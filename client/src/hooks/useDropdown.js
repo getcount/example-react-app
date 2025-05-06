@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import useClickOutside from 'utils/useClickOutside';
+import useClickOutside from '../utils/useClickOutside';
 
 const useDropdown = (
   isTableDropdown = false,

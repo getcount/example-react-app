@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# Example React App — Detailed Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📘 Project Overview and Purpose
 
-## Available Scripts
+This project is a React-based frontend application designed to integrate with COUNT via OAuth. It demonstrates a secure connection flow, a structured component layout, and interactions with backend APIs to manage financial data such as transactions, bills, and chart of accounts.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ⚙️ Setup Instructions and Environment Variables
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Clone the repository** and navigate to the client directory:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   git clone <repo-url>
+   cd client
+   ```
 
-### `npm test`
+2. **Install dependencies**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-### `npm run build`
+3. **Create a `.env` file** in the root of the `client` directory with the following:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```
+   REACT_APP_BASE_URL_API=<Your backend API base URL>
+   REACT_APP_COUNT_CLIENT_ID=<Your OAuth client ID for COUNT>
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Start the development server**:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🔐 OAuth Connection Flow
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🔹 SignIn Page (`src/pages/SignIn/SignIn.jsx`)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Renders a button to initiate the connection with the COUNT workspace.
+- On click:
+  - Calls an API to obtain the OAuth authorization URL using `clientId` and `redirectUri`.
+  - Stores a random `state` string in `localStorage` to prevent CSRF attacks.
+  - Redirects the user to COUNT’s authorization page.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🔹 ConnectionSuccess Page (`src/pages/ConnectionSuccess/ConnectionSuccess.jsx`)
 
-## Learn More
+- After redirection:
+  - Reads the `code` and `state` from URL parameters.
+  - Validates the `state` against the stored value.
+  - Sends the `authorization code` to the backend to exchange for access tokens.
+  - On success, stores the `workspaceId` in `localStorage` and redirects to the main app.
+  - Shows a loading spinner and handles errors with toast notifications.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🧭 Main App Structure and Routing
 
-### Code Splitting
+### `src/App.js`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Imports global styles.
+- Fetches initial connection details on mount.
+- Renders the main routing logic.
 
-### Analyzing the Bundle Size
+### Routing (`src/routes/allRoutes.jsx`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Defines:
+  - Public routes: `/signin`, `/success`
+  - Authenticated routes: `/`, `/create-transaction`, `/create-bill`
+- Uses React Router’s `<Navigate>` to redirect unknown paths.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📄 Key Pages Overview
 
-### Advanced Configuration
+### Chart of Accounts (`src/pages/ChartOfAccounts/ChartOfAccounts.jsx`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Fetches data using `workspaceId` from `localStorage`.
+- Displays data in a table with:
+  - Account number, name, type, subtype, taxes, balance.
+- Uses reusable components and tooltips.
+- Displays loading spinner during data fetch.
 
-### Deployment
+### CreateTransaction / CreateBill
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Example Page to create bill using backend APIs.
 
-### `npm run build` fails to minify
+### SignIn / ConnectionSuccess
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Handle OAuth sign-in and token exchange process.
+
+---
+
+## 🧩 Components and Utilities
+
+### Reusable Components
+
+- `Tooltip`, `AppLayout`, `Loader`,`Sidebar`, `Dropdowns`, `TextInput`, `Transition`, etc.
+
+### Utilities (`src/utils`)
+
+- Common functions: string manipulation, detecting outside clicks, etc.
+
+### Custom Hooks (`src/hooks`)
+
+- Manage dropdown logic and interactive behavior.
+
+---
+
+## 🚀 How to Run and Test the App
+
+1. Ensure environment variables are properly set.
+2. Start the app:
+
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
+
+3. Open the browser at `http://localhost:3000`.
+4. Use the **SignIn** page to initiate OAuth.
+5. After connection, explore authenticated routes like **Chart of Accounts**.
+6. Use browser dev tools and logs for debugging.
+7. Watch toast notifications for feedback on API interactions.
