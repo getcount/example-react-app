@@ -11,7 +11,7 @@ const SignIn = () => {
   const callApi = async () => {
     setLoading(true);
     localStorage.setItem('state', state);
-    const url = `https://dev-api.getcount.com/auth2/authorize-intiate?clientId=${process.env.REACT_APP_COUNT_CLIENT_ID}&redirectUri=${redirect}&state=${state}`;
+    const url = `${process.env.REACT_APP_COUNT_BASE_URL}/auth2/authorize-intiate?clientId=${process.env.REACT_APP_COUNT_CLIENT_ID}&redirectUri=${redirect}&state=${state}`;
 
     try {
       const response = await Axios.get(url, {
