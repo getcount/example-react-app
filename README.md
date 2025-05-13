@@ -1,4 +1,4 @@
-# Example React App — Detailed Documentation
+# Example React Express App — Detailed Documentation
 
 ## 📘 Project Overview and Purpose
 
