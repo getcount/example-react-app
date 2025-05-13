@@ -146,6 +146,11 @@ export const exchagneAccessToken = async function (
       workspaceId: data.data.result.workspaceId,
     });
 
+    // Refresh after two seconds
+    setTimeout(() => {
+      refreshToken();
+    }, 2000);
+
     res.status(200).json({
       status: "success",
       message: "Success on exchanging public cod to access code.",
@@ -163,6 +168,33 @@ export const exchagneAccessToken = async function (
       .json({ message: err?.response?.data?.message || err.message });
   }
 };
+
+// Refresh access token
+async function refreshToken() {
+  try {
+    // prepare exchagne token params
+    const exchangeAuthCodeOpts = {
+      grantType: "refresh_token",
+      refreshToken: countConnections[0].refreshToken,
+    };
+
+    const { data } = await countClient.post(
+      "/refresh-user-access-token",
+      exchangeAuthCodeOpts
+    );
+
+    console.log(data);
+
+    // push data
+    countConnections.push(data.data.result);
+    workspaceDetails.push({
+      workspaceName: data.data.result.workspaceName,
+      workspaceId: data.data.result.workspaceId,
+    });
+  } catch (err: any) {
+    console.log(err?.response?.data);
+  }
+}
 
 export const vendors = async function (req: Request, res: Response) {
   try {
