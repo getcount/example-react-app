@@ -147,9 +147,9 @@ export const exchagneAccessToken = async function (
     });
 
     // Refresh after two seconds
-    setTimeout(() => {
-      refreshToken();
-    }, 2000);
+    // setTimeout(() => {
+    //   refreshToken();
+    // }, 2000);
 
     res.status(200).json({
       status: "success",
