@@ -28,6 +28,9 @@ This project is a React-based frontend application designed to integrate with CO
    ```
    REACT_APP_BASE_URL_API=<Your backend API base URL>
    REACT_APP_COUNT_CLIENT_ID=<Your OAuth client ID for COUNT>
+   REACT_APP_COUNT_BASE_URL=https://api.getcount.com
+
+
    ```
 
 4. **Start the development server**:
